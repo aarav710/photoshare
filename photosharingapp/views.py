@@ -24,6 +24,7 @@ class PostListView(APIView):
     def get(self, request: Request, user_id, format=None) -> Response:
         if user_id is None:
             raise Http404
+        # returns all posts by user_id along with likes and comments count
         posts: 'QuerySet[Post]' = Post.objects.filter(user__id=user_id)\
             .annotate(likes_count=Count('like'))\
             .annotate(comments_count=Count('comment'))\
